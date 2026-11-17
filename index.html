@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>北海道雪國之旅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FFFCF6; --ink:#3E3A39; --coral:#F2A497; --yellow:#F6D27A;
+  --water:#A8D3E6; --green:#B9DAA5; --line:3px solid var(--ink);
+  --r:22px; --nav-h:58px;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--nav-h) + 12px)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Huninn",system-ui,sans-serif;line-height:1.6;font-size:16px}
+a{color:inherit}
+
+/* 頂端固定選單 */
+nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);background:var(--paper);border-bottom:var(--line);z-index:10;display:flex;align-items:center}
+nav ul{list-style:none;margin:0;padding:0 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;width:100%}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;white-space:nowrap;text-decoration:none;padding:4px 14px;border:var(--line);border-radius:999px;background:var(--paper);font-size:15px}
+nav a:hover,nav a:focus-visible{background:var(--yellow);outline:none}
+
+main{max-width:720px;margin:0 auto;padding:calc(var(--nav-h) + 16px) 16px 48px}
+section{margin-bottom:28px}
+h2{font-size:22px;margin:0 0 12px;display:flex;align-items:center;gap:8px;font-weight:400}
+h2::before{content:"";width:14px;height:14px;border:var(--line);border-radius:50%;background:var(--c,var(--coral))}
+.card{background:var(--paper);border:var(--line);border-radius:var(--r);padding:16px}
+
+/* 首頁 */
+.hero{text-align:center}
+.hero svg{width:100%;height:auto;display:block;border:var(--line);border-radius:var(--r);background:var(--paper)}
+.hero h1{font-size:30px;margin:16px 0 0;font-weight:400;letter-spacing:2px}
+.hero .sub{margin:2px 0 14px}
+.countdown{display:flex;justify-content:center;gap:10px}
+.countdown div{border:var(--line);border-radius:18px;padding:6px 0;width:72px;background:var(--yellow)}
+.countdown div:nth-child(2){background:var(--water)}
+.countdown div:nth-child(3){background:var(--green)}
+.countdown div:nth-child(4){background:var(--coral)}
+.countdown b{display:block;font-size:26px;font-weight:400;line-height:1.2}
+.countdown span{font-size:13px}
+.cd-msg{margin-top:10px;font-size:15px}
+
+/* 航班 */
+.flights{display:grid;gap:14px}
+@media (min-width:600px){.flights{grid-template-columns:1fr 1fr}}
+.flight .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pill{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:0 10px;font-size:13px;line-height:1.7}
+.route{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.route .ap b{display:block;font-size:28px;font-weight:400;line-height:1.1}
+.route .ap{text-align:center;font-size:13px}
+.route .mid{flex:1;text-align:center;font-size:12px}
+.route .mid svg{width:100%;max-width:120px;height:28px}
+.flight .meta{display:flex;justify-content:space-between;border-top:2px dashed var(--ink);margin-top:10px;padding-top:8px;font-size:14px}
+
+/* 每日行程 */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font:inherit;color:var(--ink);background:var(--paper);border:var(--line);border-radius:18px;padding:6px 12px;min-width:76px;cursor:pointer;line-height:1.3;flex:0 0 auto}
+.tab small{display:block;font-size:12px}
+.tab[aria-selected="true"]{background:var(--coral)}
+.tab:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
+.day-head{margin:0 0 12px;font-size:17px}
+.timeline{list-style:none;margin:0;padding:0 0 0 26px;position:relative}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;border-left:3px dashed var(--ink)}
+.timeline li{position:relative;margin-bottom:12px}
+.timeline li::before{content:"";position:absolute;left:-25px;top:16px;width:14px;height:14px;border:var(--line);border-radius:50%;background:var(--paper)}
+.timeline li.must::before{background:var(--coral)}
+.ev{border:var(--line);border-radius:18px;padding:10px 12px}
+.ev .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ev time{font-size:15px;border-bottom:3px solid var(--yellow)}
+.ev h3{margin:2px 0 0;font-size:17px;font-weight:400}
+.ev p{margin:2px 0 0;font-size:14px}
+.tag{font-size:12px;border:2px solid var(--ink);border-radius:999px;padding:0 8px;line-height:1.7}
+.must-badge{font-size:12px;background:var(--coral);border:2px solid var(--ink);border-radius:8px;padding:0 6px;line-height:1.7;transform:rotate(-4deg);display:inline-block}
+
+/* 清單 */
+.grid2{display:grid;gap:14px}
+@media (min-width:600px){.grid2{grid-template-columns:1fr 1fr}}
+.checklist{list-style:none;margin:0;padding:0}
+.checklist li+li{border-top:2px dashed #3E3A3933}
+.checklist label{display:flex;align-items:center;gap:10px;padding:8px 2px;cursor:pointer}
+.checklist input{appearance:none;-webkit-appearance:none;width:24px;height:24px;flex:0 0 24px;border:var(--line);border-radius:8px;background:var(--paper);margin:0;display:grid;place-items:center;cursor:pointer}
+.checklist input:checked{background:var(--green)}
+.checklist input:checked::after{content:"";width:6px;height:11px;border:solid var(--ink);border-width:0 3px 3px 0;transform:translateY(-2px) rotate(45deg)}
+.checklist input:focus-visible{outline:3px dashed var(--ink);outline-offset:2px}
+.checklist input:checked + span{text-decoration:line-through;text-decoration-thickness:2px;opacity:.6}
+.progress{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:6px}
+.bar{flex:1;height:12px;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--yellow);width:0;transition:width .3s}
+.group-title{font-size:15px;margin:10px 0 2px;display:inline-block;padding:0 10px;border-radius:999px;border:2px solid var(--ink)}
+.stay h3{margin:0;font-size:18px;font-weight:400}
+.stay p{margin:4px 0 0;font-size:14px}
+.stay .dates{display:flex;gap:6px;margin:8px 0 0;flex-wrap:wrap}
+footer{text-align:center;font-size:13px;padding:8px 0 24px}
+
+/* 購物・記帳 */
+.field{font:inherit;color:var(--ink);background:var(--paper);border:var(--line);border-radius:14px;padding:6px 10px;min-height:44px;width:100%;min-width:0}
+.field:focus-visible{outline:3px dashed var(--ink);outline-offset:2px}
+.btn{font:inherit;color:var(--ink);background:var(--yellow);border:var(--line);border-radius:999px;padding:6px 16px;min-height:44px;cursor:pointer;white-space:nowrap}
+.btn:focus-visible{outline:3px dashed var(--ink);outline-offset:2px}
+.btn.sm{min-height:32px;padding:2px 12px;font-size:13px;background:var(--paper)}
+.del{font:inherit;background:none;border:0;color:var(--ink);font-size:20px;line-height:1;width:36px;height:36px;border-radius:50%;cursor:pointer;flex:0 0 36px}
+.del:hover,.del:focus-visible{background:var(--coral);outline:none}
+.add-row{display:flex;gap:8px;margin-bottom:10px}
+.shop-list label{flex:1}
+.shop-list li{display:flex;align-items:center}
+.shop-list small{display:block;font-size:12px;opacity:.75}
+.exp-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.exp-form .full{grid-column:1/-1}
+.amount-row{display:flex;gap:8px}
+.amount-row .field:first-child{flex:1}
+.amount-row select{width:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;text-align:center}
+.stats div{border:var(--line);border-radius:16px;padding:6px 4px}
+.stats b{display:block;font-weight:400;font-size:clamp(13px,3.9vw,18px);line-height:1.3;white-space:nowrap}
+.stats span{font-size:12px}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.rate{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:12px;flex-wrap:wrap}
+.rate .field{width:96px;min-height:36px}
+.exp-day{font-size:14px;margin:12px 0 4px;display:flex;justify-content:space-between;border-bottom:2px dashed var(--ink)}
+.exp{list-style:none;margin:0;padding:0}
+.exp li{display:flex;align-items:center;gap:8px;padding:6px 0}
+.exp li+li{border-top:2px dashed #3E3A3933}
+.exp .t{flex:1;min-width:0}
+.exp .t small{display:block;font-size:12px;opacity:.75}
+.exp .amt{white-space:nowrap}
+.empty{font-size:14px;text-align:center;padding:10px 0;opacity:.75}
+
+/* 動畫 */
+@media (prefers-reduced-motion:no-preference){
+  .float{animation:float 4s ease-in-out infinite}
+  .drift{animation:drift 9s ease-in-out infinite alternate}
+  .drift2{animation:drift 12s ease-in-out infinite alternate-reverse}
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 24s linear infinite}
+  .train{animation:train 14s linear infinite}
+  .petal{animation:fall 7s linear infinite}
+  .petal:nth-of-type(2){animation-delay:-2s;animation-duration:8s}
+  .petal:nth-of-type(3){animation-delay:-4s;animation-duration:9s}
+  .petal:nth-of-type(4){animation-delay:-5.5s}
+  .petal:nth-of-type(5){animation-delay:-1s;animation-duration:10s}
+  .petal:nth-of-type(6){animation-delay:-3s;animation-duration:8.5s}
+  .sway{transform-box:fill-box;transform-origin:bottom center;animation:sway 3.5s ease-in-out infinite}
+  .bounce-in{animation:bounce .55s cubic-bezier(.3,1.6,.5,1) both}
+  .timeline.bounce-in li{animation:bounce .55s cubic-bezier(.3,1.6,.5,1) both}
+  .timeline.bounce-in li:nth-child(2){animation-delay:.05s}
+  .timeline.bounce-in li:nth-child(3){animation-delay:.1s}
+  .timeline.bounce-in li:nth-child(4){animation-delay:.15s}
+  .timeline.bounce-in li:nth-child(n+5){animation-delay:.2s}
+  .tab[aria-selected="true"]{animation:pop .4s cubic-bezier(.3,1.8,.5,1)}
+}
+@keyframes float{50%{transform:translateY(-6px)}}
+@keyframes drift{to{transform:translateX(28px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes train{from{transform:translateX(-200px)}to{transform:translateX(400px)}}
+@keyframes fall{from{transform:translate(0,-30px) rotate(0)}to{transform:translate(-50px,240px) rotate(360deg)}}
+@keyframes sway{50%{transform:rotate(3deg)}}
+@keyframes bounce{0%{opacity:0;transform:translateY(18px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<nav aria-label="主選單">
+  <ul>
+    <li><a href="#home">⛄ 首頁</a></li>
+    <li><a href="#flight">航班</a></li>
+    <li><a href="#days">每日行程</a></li>
+    <li><a href="#todo">待辦・住宿</a></li>
+    <li><a href="#before">出發前</a></li>
+    <li><a href="#luggage">行李</a></li>
+    <li><a href="#shop">購物</a></li>
+    <li><a href="#money">記帳</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- 首頁 -->
+  <section id="home" class="hero">
+    <svg viewBox="0 0 360 230" role="img" aria-label="羊蹄山、札幌時計台、雪人與 JR 列車的雪景插圖" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <!-- 太陽 -->
+      <g class="spin">
+        <circle cx="306" cy="42" r="18" fill="#F6D27A"/>
+        <g fill="none"><path d="M306 12v-7M306 79v-7M276 42h-7M343 42h-7M285 21l-5-5M327 63l5 5M327 21l5-5M285 63l-5 5"/></g>
+      </g>
+      <!-- 雲 -->
+      <g class="drift"><path d="M30 50a14 14 0 0 1 26-8a12 12 0 0 1 22 8a9 9 0 0 1 0 18H32a9 9 0 0 1-2-18z" fill="#FFFCF6"/></g>
+      <g class="drift2"><path d="M220 30a11 11 0 0 1 20-6a9 9 0 0 1 17 6a7 7 0 0 1 0 14h-36a7 7 0 0 1-1-14z" fill="#FFFCF6"/></g>
+      <!-- 羊蹄山 -->
+      <path d="M110 172L196 78q4-4 8 0l88 94z" fill="#A8D3E6"/>
+      <path d="M180 96l16-18q4-4 8 0l16 18-10 6-8-7-8 8-6-6z" fill="#FFFCF6"/>
+      <!-- 雪地 -->
+      <path d="M-4 172Q90 140 190 166T364 160V200H-4z" fill="#FFFCF6"/>
+      <!-- 松樹 -->
+      <g class="sway"><path d="M148 168l12-34 12 34z" fill="#B9DAA5"/><path d="M160 168v6" fill="none"/></g>
+      <g class="sway"><path d="M236 166l10-28 10 28z" fill="#B9DAA5"/></g>
+      <g class="sway"><path d="M256 168l13-38 13 38z" fill="#B9DAA5"/><path d="M262 150l7-4 7 4" fill="none" stroke-width="2"/></g>
+      <!-- 札幌時計台 -->
+      <g class="float">
+        <rect x="68" y="78" width="22" height="34" fill="#FFFCF6"/>
+        <path d="M64 80l15-18 15 18z" fill="#F2A497"/>
+        <path d="M79 62v-8" fill="none"/>
+        <circle cx="79" cy="94" r="7" fill="#F6D27A"/>
+        <path d="M79 94v-4M79 94h3" fill="none" stroke-width="2"/>
+        <rect x="42" y="124" width="74" height="40" fill="#FFFCF6"/>
+        <path d="M36 126l43-18 43 18z" fill="#F2A497"/>
+        <rect x="52" y="134" width="10" height="12" fill="#A8D3E6"/>
+        <rect x="96" y="134" width="10" height="12" fill="#A8D3E6"/>
+        <rect x="73" y="140" width="12" height="24" fill="#F6D27A"/>
+      </g>
+      <!-- 雪人 -->
+      <g class="sway">
+        <circle cx="318" cy="160" r="15" fill="#FFFCF6"/>
+        <circle cx="318" cy="134" r="11" fill="#FFFCF6"/>
+        <path d="M305 126h26M309 126v-10h18v10" fill="#F2A497"/>
+        <path d="M308 143q10 6 20 0" fill="none" stroke="#A8D3E6" stroke-width="5"/>
+        <circle cx="314" cy="133" r="1.5" fill="#3E3A39" stroke="none"/><circle cx="322" cy="133" r="1.5" fill="#3E3A39" stroke="none"/>
+      </g>
+      <!-- 軌道 -->
+      <path d="M-4 200H364V210H-4z" fill="#FFFCF6"/>
+      <!-- JR 列車 -->
+      <g class="train">
+        <path d="M10 200V180q0-6 6-6h86q26 0 40 26z" fill="#FFFCF6"/>
+        <path d="M10 193h122" fill="none" stroke="#B9DAA5" stroke-width="5"/>
+        <rect x="22" y="179" width="14" height="8" rx="3" fill="#A8D3E6"/>
+        <rect x="44" y="179" width="14" height="8" rx="3" fill="#A8D3E6"/>
+        <rect x="66" y="179" width="14" height="8" rx="3" fill="#A8D3E6"/>
+        <path d="M104 178q14 0 22 10h-22z" fill="#A8D3E6"/>
+      </g>
+      <!-- 雪花 -->
+      <g fill="#FFFCF6" stroke-width="2">
+        <circle class="petal" cx="120" cy="10" r="4"/>
+        <circle class="petal" cx="210" cy="0" r="3.5"/>
+        <circle class="petal" cx="340" cy="20" r="4"/>
+        <circle class="petal" cx="40" cy="5" r="3.5"/>
+        <circle class="petal" cx="270" cy="-10" r="3"/>
+        <circle class="petal" cx="160" cy="-20" r="3"/>
+      </g>
+    </svg>
+    <h1 id="tripTitle"></h1>
+    <p class="sub" id="tripSub"></p>
+    <div class="countdown" aria-live="polite">
+      <div><b id="cdD">0</b><span>天</span></div>
+      <div><b id="cdH">0</b><span>時</span></div>
+      <div><b id="cdM">0</b><span>分</span></div>
+      <div><b id="cdS">0</b><span>秒</span></div>
+    </div>
+    <p class="cd-msg" id="cdMsg"></p>
+  </section>
+
+  <!-- 航班 -->
+  <section id="flight">
+    <h2 style="--c:var(--water)">航班</h2>
+    <div class="flights" id="flights"></div>
+  </section>
+
+  <!-- 每日行程 -->
+  <section id="days">
+    <h2 style="--c:var(--coral)">每日行程</h2>
+    <div class="tabs" role="tablist" id="tabs" aria-label="選擇日期"></div>
+    <div class="card" role="tabpanel" id="dayPanel">
+      <p class="day-head" id="dayHead"></p>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </section>
+
+  <!-- 待辦＋住宿 -->
+  <section id="todo">
+    <div class="grid2">
+      <div>
+        <h2 style="--c:var(--yellow)">待辦清單</h2>
+        <div class="card" data-list="todo"></div>
+      </div>
+      <div>
+        <h2 style="--c:var(--green)">住宿資訊</h2>
+        <div id="stays" style="display:grid;gap:12px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="before">
+    <h2 style="--c:var(--water)">出發前清單</h2>
+    <div class="card" data-list="before"></div>
+  </section>
+
+  <section id="luggage">
+    <h2 style="--c:var(--coral)">行李清單</h2>
+    <div class="card" data-list="luggage"></div>
+  </section>
+
+  <section id="shop">
+    <h2 style="--c:var(--yellow)">購物清單</h2>
+    <div class="card">
+      <form class="add-row" id="shopForm" autocomplete="off">
+        <input class="field" id="shopText" placeholder="要買什麼？（可加「@地點」）" aria-label="新增購物項目" required>
+        <button class="btn" type="submit">＋ 加入</button>
+      </form>
+      <div class="progress"><span id="shopCount"></span><div class="bar"><i id="shopBar"></i></div></div>
+      <ul class="checklist shop-list" id="shopList"></ul>
+    </div>
+  </section>
+
+  <section id="money">
+    <h2 style="--c:var(--green)">消費紀錄</h2>
+    <div class="card">
+      <form class="exp-form" id="expForm" autocomplete="off">
+        <select class="field" id="expDate" aria-label="日期"></select>
+        <select class="field" id="expCat" aria-label="分類"></select>
+        <input class="field full" id="expTitle" placeholder="買了什麼？" aria-label="項目" required>
+        <div class="amount-row full">
+          <input class="field" id="expAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="金額" aria-label="金額" required>
+          <select class="field" id="expCur" aria-label="幣別"><option value="JPY">¥ 日圓</option><option value="TWD">NT$ 台幣</option></select>
+          <select class="field" id="expPay" aria-label="付款方式"><option>現金</option><option>信用卡</option><option>IC 卡</option></select>
+        </div>
+        <button class="btn full" type="submit">＋ 記一筆</button>
+      </form>
+      <div class="rate"><label for="rate">匯率 1 日圓 =</label><input class="field" id="rate" type="number" step="0.001" min="0" inputmode="decimal"><span>台幣（請依實際匯率修改）</span></div>
+      <div class="stats">
+        <div style="background:var(--yellow)"><b id="sumJPY">¥0</b><span>日圓合計</span></div>
+        <div style="background:var(--water)"><b id="sumTWD">NT$0</b><span>台幣合計</span></div>
+        <div style="background:var(--coral)"><b id="sumAll">NT$0</b><span>全部折台幣</span></div>
+      </div>
+      <div class="cats" id="expCats"></div>
+      <div id="expList"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn sm" type="button" id="expCsv">⬇ 匯出 CSV</button></div>
+    </div>
+  </section>
+
+  <footer>一路順風・いってらっしゃい ⛄</footer>
+</main>
+
+<script>
+/* ============ 行程資料（改這裡即可） ============ */
+const TRIP = {
+  title: "北海道雪國之旅",
+  sub: "小樽・二世谷・函館・札幌 9 天 8 夜｜2027/3/5 – 3/13",
+  depart: "2027-03-05T06:20:00+08:00",
+  end: "2027-03-13T23:59:00+09:00",
+  flights: [
+    { label:"去程", date:"2027/3/5（五）", air:"台灣虎航", no:"IT234", pnr:"", from:"TPE", fromName:"桃園 T1", dep:"06:20", to:"CTS", toName:"新千歲", arr:"10:55", info:["座位 1A","託運 30kg","懷舊排骨飯","免費改期一次"], tip:"起飛前 2.5 小時開櫃，45 分鐘前截止報到" },
+    { label:"回程", date:"2027/3/13（六）", air:"酷航 Scoot PLUS", no:"TR893", pnr:"", from:"CTS", fromName:"新千歲 國際線", dep:"18:15", to:"TPE", toName:"桃園 T1", arr:"22:05", info:["託運 35kg","手提 15kg","B787-8","飛行 4 小時 50 分"], tip:"起飛前 3 小時開櫃，60 分鐘前截止；網路報到 48～1.5 小時前" }
+  ],
+  days: [
+    { date:"3/5", week:"五", title:"手稻神社・小樽・二世古", items:[
+      { t:"06:20", title:"桃園 T1 起飛（虎航 IT234）", note:"03:50 前到機場報到", tags:["飛機"] },
+      { t:"10:55", title:"抵達新千歲機場", note:"入境、領行李", tags:["飛機"] },
+      { t:"中午", title:"手稻神社", tags:["電車"] },
+      { t:"下午", title:"小樽運河・堺町通", note:"音樂盒堂、北一硝子、甜點", tags:["電車","步行"], must:true },
+      { t:"傍晚", title:"前往二世古・俱知安 Check-in", note:"Airbnb（入住 5 晚）", tags:["電車"] }
+    ]},
+    { date:"3/6", week:"六", title:"二世谷滑雪 Day 1", items:[
+      { t:"早上", title:"租借雪具・購買雪票", tags:["巴士"] },
+      { t:"全天", title:"二世谷滑雪", note:"粉雪初體驗！", tags:["巴士"], must:true },
+      { t:"晚上", title:"泡溫泉・晚餐", tags:["步行"] }
+    ]},
+    { date:"3/7", week:"日", title:"二世谷滑雪 Day 2", items:[
+      { t:"全天", title:"二世谷滑雪", note:"晴天可看羊蹄山", tags:["巴士"], must:true },
+      { t:"晚上", title:"泡溫泉・晚餐", note:"函館住宿今天扣款", tags:["步行"] }
+    ]},
+    { date:"3/8", week:"一", title:"二世谷滑雪 Day 3", items:[
+      { t:"全天", title:"二世谷滑雪", tags:["巴士"], must:true },
+      { t:"晚上", title:"泡溫泉・晚餐", note:"札幌住宿今天扣款", tags:["步行"] }
+    ]},
+    { date:"3/9", week:"二", title:"二世谷滑雪 Day 4", items:[
+      { t:"全天", title:"二世谷滑雪", note:"最後一天，歸還雪具", tags:["巴士"], must:true },
+      { t:"晚上", title:"整理行李", tags:["步行"] }
+    ]},
+    { date:"3/10", week:"三", title:"函館", items:[
+      { t:"上午", title:"俱知安退房，前往函館", tags:["電車"] },
+      { t:"下午", title:"函館 Check-in", note:"Smile Hotel Premium 函館五稜郭", tags:["電車"] },
+      { t:"下午", title:"金森紅磚倉庫・元町坂道", tags:["電車","步行"] },
+      { t:"晚上", title:"函館山夜景", note:"纜車上山", tags:["巴士"], must:true }
+    ]},
+    { date:"3/11", week:"四", title:"函館 → 札幌", items:[
+      { t:"早上", title:"函館朝市", note:"海鮮丼早餐", tags:["電車"], must:true },
+      { t:"上午", title:"五稜郭塔・五稜郭公園", tags:["步行"] },
+      { t:"下午", title:"前往札幌 Check-in", note:"Lamp Light Books Hotel 札幌", tags:["電車"] },
+      { t:"晚上", title:"薄野・札幌拉麵", tags:["步行"] }
+    ]},
+    { date:"3/12", week:"五", title:"札幌市區", items:[
+      { t:"上午", title:"札幌時計台・大通公園", tags:["步行"], must:true },
+      { t:"中午", title:"二條市場", tags:["步行"] },
+      { t:"下午", title:"狸小路商店街", tags:["步行"] },
+      { t:"晚上", title:"湯咖哩・成吉思汗烤肉", tags:["地鐵"] }
+    ]},
+    { date:"3/13", week:"六", title:"札幌市區・搭飛機", items:[
+      { t:"上午", title:"退房・札幌市區逛街", note:"行李可寄放飯店", tags:["步行"] },
+      { t:"15:15", title:"抵達新千歲機場國際線", note:"15:15 開櫃・17:15 截止報到；先逛機場拉麵道、買伴手禮", tags:["電車"] },
+      { t:"18:15", title:"起飛返台（酷航 TR893）", note:"22:05 抵達桃園 T1", tags:["飛機"] }
+    ]}
+  ],
+  stays: [
+    { name:"俱知安 Airbnb", in:"3/5", out:"3/10", nights:5, pay:"1/26 扣款", note:"二世谷滑雪基地", url:"https://www.airbnb.com/l/rxueJeCa?s=67&unique_share_id=1c5899ed-13a5-4e27-920e-96200c787467" },
+    { name:"Smile Hotel Premium 函館五稜郭", in:"3/10", out:"3/11", nights:1, pay:"3/7 扣款", note:"函館・五稜郭", url:"https://www.agoda.com/zh-tw/smile-hotel-premium-hakodate-goryokaku-h22991208/hotel/hakodate-jp.html?ds=PCTsObswM8NZXK4i" },
+    { name:"Lamp Light Books Hotel 札幌", in:"3/11", out:"3/13", nights:2, pay:"3/8 扣款", note:"札幌市區", url:"https://www.agoda.com/zh-tw/lamp-light-books-hotel-sapporo/hotel/sapporo-jp.html?ds=PCTsObswM8NZXK4i" }
+  ],
+  lists: {
+    todo: [
+      { items:["3/11 18:15 起可辦酷航網路報到（起飛前 48 小時）","1/26 Airbnb 扣款（俱知安）","3/7 函館住宿扣款","3/8 札幌住宿扣款","確認信用卡額度","預訂雪具租借・雪票","查好俱知安→函館、函館→札幌 JR 班次","購買 eSIM / 網卡","投保旅平險（含滑雪）"] }
+    ],
+    before: [
+      { items:["護照效期 6 個月以上","填寫 Visit Japan Web","截圖機票、訂房確認","查北海道天氣與路況","手機、行動電源充飽","家裡關瓦斯、倒垃圾"] }
+    ],
+    luggage: [
+      { group:"證件・錢包", color:"#F6D27A", items:["護照","日圓現金","信用卡","交通 IC 卡"] },
+      { group:"滑雪裝備", color:"#A8D3E6", items:["滑雪衣・雪褲","雪鏡","防水手套","毛帽・脖圍","滑雪襪"] },
+      { group:"保暖衣物", color:"#F2A497", items:["發熱衣褲","羽絨外套","防滑雪靴（或鞋底冰爪）","換洗衣物 ×9","暖暖包"] },
+      { group:"3C", color:"#B9DAA5", items:["手機＋充電線","行動電源（隨身）","耳機"] },
+      { group:"盥洗・藥品", color:"#FFFCF6", items:["牙刷牙膏","乳液・護唇膏（很乾）","常備藥・痠痛貼布","防曬"] }
+    ]
+  }
+};
+const TAG_COLOR = { 飛機:"#F2A497", 新幹線:"#F2A497", 電車:"#A8D3E6", 地鐵:"#A8D3E6", 巴士:"#F6D27A", 計程車:"#F6D27A", 步行:"#B9DAA5" };
+const TAG_ICON  = { 飛機:"✈️", 新幹線:"🚄", 電車:"🚃", 地鐵:"🚇", 巴士:"🚌", 計程車:"🚕", 步行:"👟" };
+
+/* ============ 工具 ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k)) } catch(e){ return null } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)) } catch(e){} }
+};
+
+/* ============ 首頁＋倒數 ============ */
+$("#tripTitle").textContent = TRIP.title;
+$("#tripSub").textContent = TRIP.sub;
+function tick(){
+  const now = Date.now(), t = new Date(TRIP.depart).getTime(), e = new Date(TRIP.end).getTime();
+  let d = Math.max(0, t - now);
+  const s = Math.floor(d/1000);
+  $("#cdD").textContent = Math.floor(s/86400);
+  $("#cdH").textContent = Math.floor(s%86400/3600);
+  $("#cdM").textContent = Math.floor(s%3600/60);
+  $("#cdS").textContent = s%60;
+  $("#cdMsg").textContent = now < t ? "距離出發還有" : now <= e ? "旅途中！好好玩 🎒" : "旅程結束，歡迎回家 🏠";
+}
+tick(); setInterval(tick, 1000);
+
+/* ============ 航班 ============ */
+$("#flights").innerHTML = TRIP.flights.map((f,i) => `
+  <article class="card flight">
+    <div class="top"><span class="pill" style="background:${i? "var(--green)":"var(--yellow)"}">${esc(f.label)}</span><span>${esc(f.date)}</span></div>
+    <div style="font-size:14px;margin:-2px 0 8px">${esc(f.air)}${f.pnr?`・訂位代號 <b style="font-weight:400;border-bottom:3px solid var(--water)">${esc(f.pnr)}</b>`:""}</div>
+    <div class="route">
+      <div class="ap"><b>${esc(f.from)}</b>${esc(f.fromName)}<br>${esc(f.dep)}</div>
+      <div class="mid">
+        <svg viewBox="0 0 120 28" aria-hidden="true" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M4 18H90" stroke-dasharray="2 7"/>
+          <g class="float"><path d="M92 12l18 4q4 2 0 4l-18 2-6 6h-5l3-7-8-1-3 3h-4l2-5-2-5h4l3 3 8-1-3-7h5z" fill="#A8D3E6"/></g>
+        </svg>
+        ${esc(f.no)}
+      </div>
+      <div class="ap"><b>${esc(f.to)}</b>${esc(f.toName)}<br>${esc(f.arr)}</div>
+    </div>
+    <div class="meta" style="flex-wrap:wrap;gap:6px;justify-content:flex-start">${f.info.map(x=>`<span class="pill">${esc(x)}</span>`).join("")}</div>
+    <p style="margin:8px 0 0;font-size:13px">⏰ ${esc(f.tip)}</p>
+    ${f.pnr && document.getElementById("pdf-"+f.pnr) ? `<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="pill pdf-btn" data-pnr="${esc(f.pnr)}" data-act="open" style="font:inherit;font-size:13px;cursor:pointer;background:var(--water);color:var(--ink)">📄 開啟訂單 PDF</button>
+      <button class="pill pdf-btn" data-pnr="${esc(f.pnr)}" data-act="save" style="font:inherit;font-size:13px;cursor:pointer;background:var(--paper);color:var(--ink)">⬇ 下載</button>
+    </div>` : ""}
+  </article>`).join("");
+
+/* ============ 每日行程 ============ */
+const tabs = $("#tabs"), tl = $("#timeline");
+tabs.innerHTML = TRIP.days.map((d,i) =>
+  `<button class="tab" role="tab" id="tab${i}" aria-controls="dayPanel" aria-selected="false" tabindex="-1" data-i="${i}">Day ${i+1}<small>${esc(d.date)}（${esc(d.week)}）</small></button>`).join("");
+function showDay(i, focus){
+  const d = TRIP.days[i];
+  tabs.querySelectorAll(".tab").forEach((b,j) => { b.setAttribute("aria-selected", j===i); b.tabIndex = j===i ? 0 : -1; });
+  $("#dayPanel").setAttribute("aria-labelledby", "tab"+i);
+  $("#dayHead").textContent = `Day ${i+1}・${d.date}（${d.week}）${d.title}`;
+  tl.innerHTML = d.items.map(it => `
+    <li class="${it.must ? "must":""}"><div class="ev">
+      <div class="row"><time>${esc(it.t)}</time>${(it.tags||[]).map(t=>`<span class="tag" style="background:${TAG_COLOR[t]||"#FFFCF6"}">${TAG_ICON[t]||""} ${esc(t)}</span>`).join("")}${it.must?'<span class="must-badge">★ 必去</span>':""}</div>
+      <h3>${esc(it.title)}</h3>${it.note?`<p>${esc(it.note)}</p>`:""}
+    </div></li>`).join("");
+  tl.classList.remove("bounce-in"); void tl.offsetWidth; tl.classList.add("bounce-in");
+  const btn = $("#tab"+i);
+  if (focus) btn.focus();
+  // 只橫向捲動日期列，不動整頁
+  tabs.scrollTo({ left: btn.offsetLeft - tabs.clientWidth/2 + btn.offsetWidth/2,
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  store.set("trip-day", i);
+}
+tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showDay(+b.dataset.i); });
+tabs.addEventListener("keydown", e => {
+  const cur = +document.activeElement.dataset.i, n = TRIP.days.length;
+  if (e.key === "ArrowRight") showDay((cur+1)%n, true);
+  else if (e.key === "ArrowLeft") showDay((cur-1+n)%n, true);
+});
+// 旅途中自動跳到當天
+(function(){
+  let start = 0;
+  const today = new Date(), dep = new Date(TRIP.depart);
+  const diff = Math.floor((new Date(today.toDateString()) - new Date(dep.toDateString()))/86400000);
+  if (diff >= 0 && diff < TRIP.days.length) start = diff;
+  else { const saved = store.get("trip-day"); if (Number.isInteger(saved) && saved < TRIP.days.length) start = saved; }
+  showDay(start);
+})();
+
+/* ============ 住宿 ============ */
+$("#stays").innerHTML = TRIP.stays.map((s,i) => `
+  <article class="card stay">
+    <h3>🏠 ${esc(s.name)}</h3>
+    <div class="dates"><span class="pill" style="background:${i%2?"var(--water)":"var(--yellow)"}">${esc(s.in)} → ${esc(s.out)}</span><span class="pill">${s.nights} 晚</span></div>
+    <p>📍 ${esc(s.note)}</p><p>💳 ${esc(s.pay)}</p>${s.url?`<p><a class="pill" style="background:var(--paper);text-decoration:none" href="${esc(s.url)}" target="_blank" rel="noopener">🔗 訂房頁面</a></p>`:""}
+  </article>`).join("");
+
+/* ============ 可打勾清單 ============ */
+document.querySelectorAll("[data-list]").forEach(box => {
+  const key = box.dataset.list, groups = TRIP.lists[key], saved = store.get("trip-list-"+key) || {};
+  let html = `<div class="progress"><span class="count"></span><div class="bar"><i></i></div></div>`;
+  groups.forEach((g,gi) => {
+    if (g.group) html += `<div class="group-title" style="background:${g.color}">${esc(g.group)}</div>`;
+    html += `<ul class="checklist">` + g.items.map((it,ii) => {
+      const id = `${key}-${gi}-${ii}`;
+      return `<li><label><input type="checkbox" data-id="${id}" ${saved[id]?"checked":""}><span>${esc(it)}</span></label></li>`;
+    }).join("") + `</ul>`;
+  });
+  box.innerHTML = html;
+  const update = () => {
+    const all = box.querySelectorAll("input"), done = box.querySelectorAll("input:checked").length;
+    box.querySelector(".count").textContent = `${done} / ${all.length}`;
+    box.querySelector(".bar i").style.width = (all.length ? done/all.length*100 : 0) + "%";
+  };
+  box.addEventListener("change", e => {
+    if (!e.target.matches("input")) return;
+    saved[e.target.dataset.id] = e.target.checked;
+    store.set("trip-list-"+key, saved); update();
+  });
+  update();
+});
+
+/* ============ 購物清單 ============ */
+const SHOP_SEED = ["白色戀人","ROYCE 生巧克力","六花亭奶油夾心餅乾","薯條三兄弟","LeTAO 雙層起司蛋糕 @小樽","北菓樓年輪蛋糕","藥妝"];
+let shop = store.get("trip-shop");
+if (!Array.isArray(shop)) shop = SHOP_SEED.map((t,i) => ({ id: Date.now()+i, text:t, done:false }));
+function saveShop(){ store.set("trip-shop", shop); }
+function renderShop(){
+  const ul = $("#shopList");
+  ul.innerHTML = shop.length ? shop.map(it => {
+    const [name, where] = it.text.split("@").map(x => x.trim());
+    return `<li><label><input type="checkbox" data-id="${it.id}" ${it.done?"checked":""}><span>${esc(name)}${where?`<small>📍 ${esc(where)}</small>`:""}</span></label><button class="del" data-id="${it.id}" aria-label="刪除 ${esc(name)}">×</button></li>`;
+  }).join("") : `<li class="empty">清單是空的，加點想買的吧！</li>`;
+  const done = shop.filter(x => x.done).length;
+  $("#shopCount").textContent = `${done} / ${shop.length}`;
+  $("#shopBar").style.width = (shop.length ? done/shop.length*100 : 0) + "%";
+}
+$("#shopForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const v = $("#shopText").value.trim(); if (!v) return;
+  shop.push({ id: Date.now(), text:v, done:false }); saveShop(); renderShop();
+  $("#shopText").value = ""; $("#shopText").focus();
+});
+$("#shopList").addEventListener("change", e => {
+  const it = shop.find(x => x.id == e.target.dataset.id); if (!it) return;
+  it.done = e.target.checked; saveShop(); renderShop();
+});
+$("#shopList").addEventListener("click", e => {
+  const b = e.target.closest(".del"); if (!b) return;
+  const it = shop.find(x => x.id == b.dataset.id);
+  if (it && confirm(`刪除「${it.text}」？`)) { shop = shop.filter(x => x !== it); saveShop(); renderShop(); }
+});
+renderShop();
+
+/* ============ 消費紀錄 ============ */
+const CATS = { 餐飲:"#F2A497", 交通:"#A8D3E6", 購物:"#F6D27A", 住宿:"#B9DAA5", 門票:"#A8D3E6", 滑雪:"#B9DAA5", 其他:"#FFFCF6" };
+let expenses = store.get("trip-expense"); if (!Array.isArray(expenses)) expenses = [];
+let rate = store.get("trip-rate"); if (typeof rate !== "number" || !(rate > 0)) rate = 0.21;
+const fmt = (n, cur) => (cur === "JPY" ? "¥" : "NT$") + Math.round(n).toLocaleString("zh-TW");
+$("#expDate").innerHTML = TRIP.days.map((d,i) => `<option value="${esc(d.date)}">${esc(d.date)}（${esc(d.week)}）D${i+1}</option>`).join("") + `<option value="行前">行前</option>`;
+$("#expCat").innerHTML = Object.keys(CATS).map(c => `<option>${c}</option>`).join("");
+$("#expDate").selectedIndex = Math.min(Math.max(+document.querySelector('.tab[aria-selected="true"]').dataset.i, 0), TRIP.days.length-1);
+$("#rate").value = rate;
+function renderExp(){
+  store.set("trip-expense", expenses);
+  let jpy = 0, twd = 0; const byCat = {};
+  expenses.forEach(x => {
+    if (x.cur === "JPY") jpy += x.amount; else twd += x.amount;
+    byCat[x.cat] = (byCat[x.cat]||0) + (x.cur === "JPY" ? x.amount*rate : x.amount);
+  });
+  $("#sumJPY").textContent = fmt(jpy,"JPY");
+  $("#sumTWD").textContent = fmt(twd,"TWD");
+  $("#sumAll").textContent = fmt(jpy*rate + twd,"TWD");
+  $("#expCats").innerHTML = Object.entries(byCat).sort((a,b) => b[1]-a[1])
+    .map(([c,v]) => `<span class="tag" style="background:${CATS[c]||"#FFFCF6"}">${esc(c)} ${fmt(v,"TWD")}</span>`).join("");
+  const order = TRIP.days.map(d => d.date).concat("行前");
+  const days = [...new Set(expenses.map(x => x.date))].sort((a,b) => order.indexOf(a) - order.indexOf(b));
+  $("#expList").innerHTML = expenses.length ? days.map(d => {
+    const list = expenses.filter(x => x.date === d);
+    const dayTotal = list.reduce((s,x) => s + (x.cur === "JPY" ? x.amount*rate : x.amount), 0);
+    return `<div class="exp-day"><span>${esc(d)}</span><span>約 ${fmt(dayTotal,"TWD")}</span></div><ul class="exp">` +
+      list.map(x => `<li><span class="tag" style="background:${CATS[x.cat]||"#FFFCF6"}">${esc(x.cat)}</span><span class="t">${esc(x.title)}<small>${esc(x.pay)}</small></span><span class="amt">${fmt(x.amount,x.cur)}</span><button class="del" data-id="${x.id}" aria-label="刪除 ${esc(x.title)}">×</button></li>`).join("") + `</ul>`;
+  }).join("") : `<p class="empty">還沒有紀錄，花了錢就記一筆吧！</p>`;
+}
+$("#expForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const amount = parseFloat($("#expAmt").value), title = $("#expTitle").value.trim();
+  if (!title || !(amount >= 0)) return;
+  expenses.push({ id: Date.now(), date: $("#expDate").value, cat: $("#expCat").value, title, amount, cur: $("#expCur").value, pay: $("#expPay").value });
+  renderExp();
+  $("#expTitle").value = ""; $("#expAmt").value = ""; $("#expTitle").focus();
+});
+$("#expList").addEventListener("click", e => {
+  const b = e.target.closest(".del"); if (!b) return;
+  const x = expenses.find(y => y.id == b.dataset.id);
+  if (x && confirm(`刪除「${x.title} ${fmt(x.amount,x.cur)}」？`)) { expenses = expenses.filter(y => y !== x); renderExp(); }
+});
+$("#rate").addEventListener("input", e => {
+  const v = parseFloat(e.target.value);
+  if (v > 0) { rate = v; store.set("trip-rate", rate); renderExp(); }
+});
+$("#expCsv").addEventListener("click", () => {
+  const rows = [["日期","分類","項目","金額","幣別","付款方式","折台幣"]].concat(
+    expenses.map(x => [x.date, x.cat, x.title, x.amount, x.cur, x.pay, Math.round(x.cur === "JPY" ? x.amount*rate : x.amount)]));
+  const csv = "\ufeff" + rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv"}));
+  a.download = "北海道消費紀錄.csv"; document.body.appendChild(a); a.click(); a.remove();
+});
+renderExp();
+
+/* ============ 訂單 PDF ============ */
+const PDF_NAME = {};
+const pdfUrls = {};
+function pdfUrl(pnr){
+  if (pdfUrls[pnr]) return pdfUrls[pnr];
+  const el = document.getElementById("pdf-"+pnr); if (!el) return null;
+  const bin = atob(el.textContent.trim()), buf = new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) buf[i] = bin.charCodeAt(i);
+  return pdfUrls[pnr] = URL.createObjectURL(new Blob([buf], {type:"application/pdf"}));
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".pdf-btn"); if (!b) return;
+  const url = pdfUrl(b.dataset.pnr); if (!url) return;
+  if (b.dataset.act === "open") { if (!window.open(url, "_blank")) b.dataset.act = "save"; else return; }
+  const a = document.createElement("a"); a.href = url; a.download = PDF_NAME[b.dataset.pnr] || b.dataset.pnr+".pdf";
+  document.body.appendChild(a); a.click(); a.remove();
+});
+</script>
+</body>
+</html>
